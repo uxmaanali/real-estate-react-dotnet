@@ -21,7 +21,6 @@ frontend/package-lock
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
 *.sw?
 
 frontend/.vscode/*
@@ -42,7 +41,6 @@ backend/.DS_Store
 backend/*.suo
 backend/*.ntvs*
 backend/*.njsproj
-backend/*.sln
 backend/*.sw?
 
 # Visual Studio and .NET Core specific files
