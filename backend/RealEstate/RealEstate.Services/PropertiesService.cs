@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using RealEstate.Database.Entities.Context;
-using RealEstate.Services.Abstraction;
+using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Models.Properties;
 
 namespace RealEstate.Services;

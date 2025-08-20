@@ -1,10 +1,12 @@
 ﻿using System.Security.Claims;
 
-using RealEstate.Services.Abstraction;
+using Microsoft.AspNetCore.Http;
+
+using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Enums;
 using RealEstate.Shared.Utils;
 
-namespace RealEstate.Services;
+namespace RealEstate.Shared.Services;
 public class AuthorizedContext : IScopedDependency
 {
     private IHttpContextAccessor _httpContextAccessor;

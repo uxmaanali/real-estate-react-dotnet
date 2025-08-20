@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.Contracts;
 using System.Reflection;
 
-using RealEstate.Services.Abstraction;
+using RealEstate.Shared.Abstraction;
 
 namespace RealEstate.Utils;
 

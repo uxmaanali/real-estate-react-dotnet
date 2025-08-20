@@ -3,6 +3,7 @@
 using RealEstate.Services;
 using RealEstate.Shared.Models;
 using RealEstate.Shared.Models.Properties;
+using RealEstate.Shared.Services;
 
 namespace RealEstate.Controllers;
 [Route("api/[controller]")]

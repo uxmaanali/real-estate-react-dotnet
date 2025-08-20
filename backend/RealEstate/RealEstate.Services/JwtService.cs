@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 using RealEstate.Database.Entities;
-using RealEstate.Services.Abstraction;
+using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.OptionsConfig.Jwt;
 
 namespace RealEstate.Services;

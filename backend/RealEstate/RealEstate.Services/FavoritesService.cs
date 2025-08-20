@@ -2,7 +2,7 @@
 
 using RealEstate.Database.Entities;
 using RealEstate.Database.Entities.Context;
-using RealEstate.Services.Abstraction;
+using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Models.Properties;
 
 namespace RealEstate.Services;
@@ -44,7 +44,7 @@ public class FavoritesService : IScopedDependency
         try
         {
             var favorite = await _dbContext.Favorites
-            .AsTracking()
+            //.AsTracking()
             .SingleOrDefaultAsync(x => x.UserId == userId && x.PropertyId == propertyId);
 
             if (favorite != null)

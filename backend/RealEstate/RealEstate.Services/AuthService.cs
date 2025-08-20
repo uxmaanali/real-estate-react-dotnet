@@ -2,7 +2,7 @@
 
 using RealEstate.Database.Entities;
 using RealEstate.Database.Entities.Context;
-using RealEstate.Services.Abstraction;
+using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Models;
 using RealEstate.Shared.Models.Login;
 using RealEstate.Shared.Models.Register;
