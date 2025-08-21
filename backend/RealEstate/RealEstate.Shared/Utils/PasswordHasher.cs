@@ -34,7 +34,7 @@ public class PasswordHasher
         );
     }
 
-    public static string GenerateSaltFromGuid()
+    public static string GeneratePasswordSalt()
     {
         var guid = Guid.NewGuid();
         var guidBytes = guid.ToByteArray();

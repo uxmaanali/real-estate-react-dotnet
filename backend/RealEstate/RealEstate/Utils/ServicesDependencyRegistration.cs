@@ -74,8 +74,14 @@ public static class ServicesDependencyRegistration
             Type implementationType,
             ServiceLifetime lifeTime)
     {
+        var interfaceName = $"I{implementationType.Name}";
+        var interfaceType = implementationType.GetInterface(interfaceName);
+
+        if (interfaceType == null)
+            throw new InvalidOperationException($"{implementationType.Name} is not implementing any interface");
+
         return ServiceDescriptor.Describe(
-            implementationType,
+            interfaceType,
             implementationType,
             lifeTime
         );

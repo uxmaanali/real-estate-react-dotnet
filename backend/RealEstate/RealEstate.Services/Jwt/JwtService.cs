@@ -9,8 +9,8 @@ using RealEstate.Database.Entities;
 using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.OptionsConfig.Jwt;
 
-namespace RealEstate.Services;
-public class JwtService : IScopedDependency
+namespace RealEstate.Services.Jwt;
+public class JwtService : IJwtService, IScopedDependency
 {
     private readonly JwtOptions _jwtOptions;
 

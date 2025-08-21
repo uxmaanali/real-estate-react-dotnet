@@ -6,12 +6,12 @@ using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Enums;
 using RealEstate.Shared.Utils;
 
-namespace RealEstate.Shared.Services;
-public class AuthorizedContext : IScopedDependency
+namespace RealEstate.Shared.Services.AuthorizedContext;
+public class AuthorizedContextService : IAuthorizedContextService, IScopedDependency
 {
     private IHttpContextAccessor _httpContextAccessor;
 
-    public AuthorizedContext(IHttpContextAccessor httpContextAccessor)
+    public AuthorizedContextService(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
     }

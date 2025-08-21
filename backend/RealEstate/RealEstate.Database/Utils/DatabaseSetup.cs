@@ -7,7 +7,7 @@ using RealEstate.Database.Entities.Context;
 using RealEstate.Database.SeedData;
 using RealEstate.Shared.Constants;
 
-namespace RealEstate.Database;
+namespace RealEstate.Database.Utils;
 public static class DatabaseSetup
 {
     public static IServiceCollection RegisterContext(this IServiceCollection services, IConfiguration configuration)

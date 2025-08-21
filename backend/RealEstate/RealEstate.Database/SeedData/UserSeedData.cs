@@ -16,7 +16,7 @@ internal static class UserSeedData
         var buyerUserExist = dbContext.Users.Any(x => x.Email == UserData.BuyerUser && x.Role == UserRole.Buyer);
         if (!buyerUserExist)
         {
-            var salt = PasswordHasher.GenerateSaltFromGuid();
+            var salt = PasswordHasher.GeneratePasswordSalt();
             var passwordHash = PasswordHasher.HashPassword("Abcd!234", salt);
 
             var user = new User

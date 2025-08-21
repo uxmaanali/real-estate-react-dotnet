@@ -1,9 +1,5 @@
-using System.Text;
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-
-using RealEstate.Database;
+using RealEstate.Database.Utils;
+using RealEstate.Services.Utils;
 using RealEstate.Shared.OptionsConfig;
 using RealEstate.Shared.OptionsConfig.Jwt;
 using RealEstate.Utils;
@@ -30,29 +26,14 @@ builder.Services.AddOptions<JwtOptions>()
             .Bind(builder.Configuration.GetSection(OptionConstants.JwtSectionName))
             .ValidateDataAnnotations();
 
-// Adding Authention in application
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer((options) =>
-{
-    var jwtOptions = builder.Configuration.GetSection(OptionConstants.JwtSectionName).Get<JwtOptions>();
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtOptions!.Issuer,
-        ValidAudience = jwtOptions.Audience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
-    };
-});
+// Register encryption
+builder.Services.AddEncryption(builder.Configuration);
+
+// Register cache
+builder.Services.AddHybridCache(builder.Configuration);
+
+// Adding Authention & Authorization in application
+builder.Services.AddAuthenticationAndAuthorization(builder.Configuration);
 
 // Or you can also register as follows
 builder.Services.AddHttpContextAccessor();

@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 
-using RealEstate.Database;
-using RealEstate.Services;
+using RealEstate.Database.Utils;
+using RealEstate.Services.Auth;
 using RealEstate.Shared.Abstraction;
 
 namespace RealEstate.Utils;

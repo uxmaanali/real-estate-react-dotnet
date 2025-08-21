@@ -5,9 +5,9 @@ using RealEstate.Database.Entities.Context;
 using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Models.Properties;
 
-namespace RealEstate.Services;
+namespace RealEstate.Services.Favorites;
 
-public class FavoritesService : IScopedDependency
+public class FavoritesService : IFavoritesService, IScopedDependency
 {
     private readonly RealEstateContext _dbContext;
 

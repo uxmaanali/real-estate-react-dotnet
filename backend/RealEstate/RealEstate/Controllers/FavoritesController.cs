@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using RealEstate.Services;
+using RealEstate.Services.Favorites;
 using RealEstate.Shared.Models;
 using RealEstate.Shared.Models.Properties;
-using RealEstate.Shared.Services;
+using RealEstate.Shared.Services.AuthorizedContext;
 
 namespace RealEstate.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class FavoritesController : ControllerBase
 {
-    private readonly AuthorizedContext _authorizedContext;
-    private readonly FavoritesService _favoritesService;
+    private readonly IAuthorizedContextService _authorizedContext;
+    private readonly IFavoritesService _favoritesService;
 
-    public FavoritesController(AuthorizedContext authorizedContext, FavoritesService favoritesService)
+    public FavoritesController(IAuthorizedContextService authorizedContext, IFavoritesService favoritesService)
     {
         _authorizedContext = authorizedContext;
         _favoritesService = favoritesService;

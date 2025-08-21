@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using RealEstate.Services;
+using RealEstate.Services.Properties;
 using RealEstate.Shared.Models;
 using RealEstate.Shared.Models.Properties;
-using RealEstate.Shared.Services;
+using RealEstate.Shared.Services.AuthorizedContext;
 
 namespace RealEstate.Controllers;
 
@@ -11,10 +11,10 @@ namespace RealEstate.Controllers;
 [ApiController]
 public class PropertiesController : ControllerBase
 {
-    private readonly AuthorizedContext _authorizedContext;
-    private readonly PropertiesService _propertiesService;
+    private readonly IAuthorizedContextService _authorizedContext;
+    private readonly IPropertiesService _propertiesService;
 
-    public PropertiesController(PropertiesService propertiesService, AuthorizedContext authorizedContext)
+    public PropertiesController(IPropertiesService propertiesService, IAuthorizedContextService authorizedContext)
     {
         _authorizedContext = authorizedContext;
         _propertiesService = propertiesService;
