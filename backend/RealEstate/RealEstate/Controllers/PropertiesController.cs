@@ -1,65 +1,64 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿namespace RealEstate.Controllers;
+using Microsoft.AspNetCore.Mvc;
 
 using RealEstate.Services.Properties;
+using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Models;
 using RealEstate.Shared.Models.Properties;
 using RealEstate.Shared.Services.AuthorizedContext;
 
-namespace RealEstate.Controllers;
-
 [Route("api/[controller]")]
 [ApiController]
-public class PropertiesController : ControllerBase
+public class PropertiesController : ApiBaseController
 {
-    private readonly IAuthorizedContextService _authorizedContext;
+    private readonly IAuthorizedContextService _authorizedContextService;
     private readonly IPropertiesService _propertiesService;
 
-    public PropertiesController(IPropertiesService propertiesService, IAuthorizedContextService authorizedContext)
+    public PropertiesController(IPropertiesService propertiesService, IAuthorizedContextService authorizedContextService)
     {
-        _authorizedContext = authorizedContext;
+        _authorizedContextService = authorizedContextService;
         _propertiesService = propertiesService;
     }
 
     [HttpGet]
     [Route("")]
-    public async Task<IActionResult> Properties([FromQuery] PropertyFilters filters)
+    public async Task<IActionResult> Properties([FromQuery] PropertyFiltersRequestModel filters)
     {
         try
         {
-            var userId = _authorizedContext.GetUserId();
-            var properties = await _propertiesService.GetPropertiesAsync(filters, userId);
-            return Ok(ApiResponse<List<PropertyDto>>.SuccessResponse(properties));
+            var properties = await _propertiesService.GetPropertiesAsync(filters);
+            return Ok(ApiResponse<List<PropertyModel>>.SuccessResponse(properties));
         }
         catch (Exception)
         {
             return StatusCode(
                 StatusCodes.Status500InternalServerError,
-                ApiResponse<List<PropertyDto>>.FailureResponse("An error occurred while processing your request")
+                ApiResponse<List<PropertyModel>>.FailureResponse("An error occurred while processing your request")
             );
         }
     }
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<IActionResult> Property([FromRoute] int id)
+    public async Task<IActionResult> Property([FromRoute] int id, [FromQuery] BaseModel model)
     {
         try
         {
-            var userId = _authorizedContext.GetUserId();
-            var property = await _propertiesService.GetProperty(id, userId);
+            model.Id = id;
+            var property = await _propertiesService.GetProperty(model);
 
             if (property == null)
             {
-                return NotFound(ApiResponse<PropertyDto>.FailureResponse("Property not found."));
+                return NotFound(ApiResponse<PropertyModel>.FailureResponse("Property not found."));
             }
 
-            return Ok(ApiResponse<PropertyDto>.SuccessResponse(property));
+            return Ok(ApiResponse<PropertyModel>.SuccessResponse(property));
         }
         catch (Exception)
         {
             return StatusCode(
                 StatusCodes.Status500InternalServerError,
-                ApiResponse<ApiResponse<PropertyDto>>.FailureResponse("An error occurred while processing your request")
+                ApiResponse<ApiResponse<PropertyModel>>.FailureResponse("An error occurred while processing your request")
             );
         }
     }

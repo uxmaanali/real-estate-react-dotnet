@@ -1,5 +1,5 @@
 ﻿namespace RealEstate.Shared.Models;
-public class ApiResponse<T>
+public record ApiResponse<T>
 {
     public bool Success { get; set; }
     public T Response { get; set; }

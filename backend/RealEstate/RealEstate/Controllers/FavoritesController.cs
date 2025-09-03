@@ -1,61 +1,64 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿namespace RealEstate.Controllers;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 using RealEstate.Services.Favorites;
+using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Models;
 using RealEstate.Shared.Models.Properties;
 using RealEstate.Shared.Services.AuthorizedContext;
 
-namespace RealEstate.Controllers;
 [Route("api/[controller]")]
 [ApiController]
-public class FavoritesController : ControllerBase
+[Authorize]
+public class FavoritesController : ApiBaseController
 {
-    private readonly IAuthorizedContextService _authorizedContext;
+    private readonly IAuthorizedContextService _authorizedContextService;
     private readonly IFavoritesService _favoritesService;
 
-    public FavoritesController(IAuthorizedContextService authorizedContext, IFavoritesService favoritesService)
+    public FavoritesController(IAuthorizedContextService authorizedContextService, IFavoritesService favoritesService)
     {
-        _authorizedContext = authorizedContext;
+        _authorizedContextService = authorizedContextService;
         _favoritesService = favoritesService;
     }
 
     [HttpGet]
     [Route("")]
-    public async Task<IActionResult> Favorites()
+    public async Task<IActionResult> Favorites([FromQuery] BaseModel model)
     {
         try
         {
-            var userId = _authorizedContext.GetUserId();
-            if (userId == null)
+            if (model.UserId == null)
             {
-                return BadRequest(ApiResponse<List<PropertyDto>>.FailureResponse("You are not authorized.", new List<PropertyDto>()));
+                return BadRequest(ApiResponse<List<PropertyModel>>.FailureResponse("You are not authorized.", new List<PropertyModel>()));
             }
 
-            var properties = await _favoritesService.GetFavorites(userId.Value);
-            return Ok(ApiResponse<List<PropertyDto>>.SuccessResponse(properties));
+            var properties = await _favoritesService.GetFavorites(model);
+            return Ok(ApiResponse<List<PropertyModel>>.SuccessResponse(properties));
         }
         catch (Exception)
         {
             return StatusCode(
                 StatusCodes.Status500InternalServerError,
-                ApiResponse<List<PropertyDto>>.FailureResponse("An error occurred while processing your request")
+                ApiResponse<List<PropertyModel>>.FailureResponse("An error occurred while processing your request")
             );
         }
     }
 
     [HttpPost]
     [Route("{propertyId}")]
-    public async Task<IActionResult> AddRemoveFavorite([FromRoute] int propertyId)
+    public async Task<IActionResult> AddRemoveFavorite([FromRoute] int propertyId, [FromQuery] BaseModel model)
     {
         try
         {
-            var userId = _authorizedContext.GetUserId();
-            if (userId == null)
+            if (model.UserId == null)
             {
                 return BadRequest(ApiResponse<bool>.FailureResponse("You are not authorized."));
             }
 
-            var (success, message) = await _favoritesService.AddRemoveFavorite(userId.Value, propertyId);
+            model.Id = propertyId;
+
+            var (success, message) = await _favoritesService.AddRemoveFavorite(model);
 
             if (success)
             {

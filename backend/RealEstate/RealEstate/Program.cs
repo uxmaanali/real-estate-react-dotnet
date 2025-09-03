@@ -1,3 +1,4 @@
+using RealEstate.Actions;
 using RealEstate.Database.Utils;
 using RealEstate.Services.Utils;
 using RealEstate.Shared.OptionsConfig;
@@ -6,9 +7,6 @@ using RealEstate.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -49,6 +47,12 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
+});
+
+// Add services to the container.
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<PopulateBaseDtoActionFilter>();
 });
 
 var app = builder.Build();

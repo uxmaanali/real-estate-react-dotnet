@@ -1,5 +1,5 @@
 ﻿namespace RealEstate.Shared.Models.Login;
-public class LoginResponseDto
+public record LoginResponseModel
 {
     public int UserId { get; set; }
     public string Token { get; set; }

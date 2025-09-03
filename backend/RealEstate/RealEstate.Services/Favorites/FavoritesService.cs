@@ -16,11 +16,11 @@ public class FavoritesService : IFavoritesService, IScopedDependency
         _dbContext = dbContext;
     }
 
-    public async Task<List<PropertyDto>> GetFavorites(int userId)
+    public async Task<List<PropertyModel>> GetFavorites(BaseModel request)
     {
         var properties = await _dbContext.Favorites
-            .Where(x => x.UserId == userId)
-            .Select(x => new PropertyDto
+            .Where(x => x.UserId == request.UserId)
+            .Select(x => new PropertyModel
             {
                 Id = x.Id,
                 Title = x.Property.Title,
@@ -34,35 +34,34 @@ public class FavoritesService : IFavoritesService, IScopedDependency
                 ListingType = x.Property.ListingType.ToString(),
                 IsFavorite = true,
             })
-            .ToListAsync();
+            .ToListAsync(request.CancellationToken);
 
         return properties;
     }
 
-    public async Task<(bool success, string message)> AddRemoveFavorite(int userId, int propertyId)
+    public async Task<(bool success, string message)> AddRemoveFavorite(BaseModel request)
     {
         try
         {
             var favorite = await _dbContext.Favorites
-            //.AsTracking()
-            .SingleOrDefaultAsync(x => x.UserId == userId && x.PropertyId == propertyId);
+                .SingleOrDefaultAsync(x => x.UserId == request.UserId && x.PropertyId == request.Id, request.CancellationToken);
 
             if (favorite != null)
             {
                 _dbContext.Favorites.Remove(favorite);
-                await _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync(request.CancellationToken);
 
                 return (success: true, message: "Property is removed from favorites.");
             }
 
             favorite = new Favorite
             {
-                PropertyId = propertyId,
-                UserId = userId,
+                PropertyId = request.Id,
+                UserId = request.UserId!.Value,
             };
 
-            await _dbContext.Favorites.AddAsync(favorite);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.Favorites.AddAsync(favorite, request.CancellationToken);
+            await _dbContext.SaveChangesAsync(request.CancellationToken);
 
             return (success: true, message: "Property is added to favorites.");
         }

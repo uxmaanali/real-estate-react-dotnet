@@ -22,34 +22,34 @@ public class AuthService : IAuthService, IScopedDependency
         _jwtService = jwtService;
     }
 
-    public async Task<ApiResponse<LoginResponseDto>> Login(LoginRequestDto request)
+    public async Task<ApiResponse<LoginResponseModel>> Login(LoginRequestModel request)
     {
-        var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
+        var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == request.Email, request.CancellationToken);
         if (user == null)
         {
-            return ApiResponse<LoginResponseDto>.FailureResponse("Email or password is incorrect.");
+            return ApiResponse<LoginResponseModel>.FailureResponse("Email or password is incorrect.");
         }
 
         var verified = PasswordHasher.VerifyPassword(request.Password, user.PasswordHash, user.Salt);
         if (!verified)
         {
-            return ApiResponse<LoginResponseDto>.FailureResponse("Email or password is incorrect.");
+            return ApiResponse<LoginResponseModel>.FailureResponse("Email or password is incorrect.");
         }
 
         var token = _jwtService.GenerateJWTToken(user);
 
-        var response = new LoginResponseDto
+        var response = new LoginResponseModel
         {
             UserId = user.Id,
             Token = token,
         };
 
-        return ApiResponse<LoginResponseDto>.SuccessResponse(response);
+        return ApiResponse<LoginResponseModel>.SuccessResponse(response);
     }
 
-    public async Task<ApiResponse<int>> Register(RegisterRequestDto request)
+    public async Task<ApiResponse<int>> Register(RegisterRequestModel request)
     {
-        var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
+        var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == request.Email, request.CancellationToken);
         if (user is not null)
         {
             return ApiResponse<int>.FailureResponse("User already exists.");

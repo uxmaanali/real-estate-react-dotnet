@@ -1,5 +1,7 @@
 ﻿namespace RealEstate.Shared.Models.Login;
-public class LoginRequestDto
+using RealEstate.Shared.Abstraction;
+
+public record LoginRequestModel : BaseModel
 {
     public string Email { get; set; } = string.Empty;
 

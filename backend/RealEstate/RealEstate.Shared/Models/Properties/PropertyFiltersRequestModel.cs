@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace RealEstate.Shared.Models.Properties;
+using System.ComponentModel.DataAnnotations;
 
+using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Enums;
 
-namespace RealEstate.Shared.Models.Properties;
-public class PropertyFilters
+public record PropertyFiltersRequestModel : BaseModel
 {
     [StringLength(100, ErrorMessage = "Title cannot exceed 100 characters")]
     public string? Title { get; set; }

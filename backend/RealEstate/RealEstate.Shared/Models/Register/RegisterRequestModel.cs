@@ -1,7 +1,8 @@
-﻿using RealEstate.Shared.Enums;
+﻿using RealEstate.Shared.Abstraction;
+using RealEstate.Shared.Enums;
 
 namespace RealEstate.Shared.Models.Register;
-public class RegisterRequestDto
+public record RegisterRequestModel : BaseModel
 {
     public string Email { get; set; }
 

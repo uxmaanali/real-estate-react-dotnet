@@ -1,9 +1,10 @@
-﻿using RealEstate.Shared.Models.Properties;
+﻿using RealEstate.Shared.Abstraction;
+using RealEstate.Shared.Models.Properties;
 
 namespace RealEstate.Services.Favorites;
 public interface IFavoritesService
 {
-    Task<List<PropertyDto>> GetFavorites(int userId);
+    Task<List<PropertyModel>> GetFavorites(BaseModel request);
 
-    Task<(bool success, string message)> AddRemoveFavorite(int userId, int propertyId);
+    Task<(bool success, string message)> AddRemoveFavorite(BaseModel request);
 }

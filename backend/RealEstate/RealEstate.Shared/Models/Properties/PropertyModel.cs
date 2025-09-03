@@ -1,6 +1,6 @@
 ﻿namespace RealEstate.Shared.Models.Properties;
 
-public class PropertyDto
+public record PropertyModel
 {
     public int Id { get; set; }
 

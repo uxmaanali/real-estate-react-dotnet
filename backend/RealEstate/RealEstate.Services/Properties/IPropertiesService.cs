@@ -1,9 +1,10 @@
-﻿using RealEstate.Shared.Models.Properties;
+﻿using RealEstate.Shared.Abstraction;
+using RealEstate.Shared.Models.Properties;
 
 namespace RealEstate.Services.Properties;
 public interface IPropertiesService
 {
-    Task<List<PropertyDto>> GetPropertiesAsync(PropertyFilters filters, int? userId);
+    Task<List<PropertyModel>> GetPropertiesAsync(PropertyFiltersRequestModel filters);
 
-    Task<PropertyDto?> GetProperty(int id, int? userId);
+    Task<PropertyModel?> GetProperty(BaseModel request);
 }

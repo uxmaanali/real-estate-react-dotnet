@@ -17,15 +17,17 @@ public class PropertiesService : IPropertiesService, IScopedDependency
         _cacheService = cacheService;
     }
 
-    public async Task<List<PropertyDto>> GetPropertiesAsync(PropertyFilters filters, int? userId)
+    public async Task<List<PropertyModel>> GetPropertiesAsync(PropertyFiltersRequestModel filters)
     {
         const string propertiesKey = "properties";
 
-        var cacheProperties = await _cacheService.GetAsync<List<PropertyDto>>(propertiesKey);
+        var cacheProperties = await _cacheService.GetAsync<List<PropertyModel>>(propertiesKey);
         if (cacheProperties != null && cacheProperties.Count > 0)
         {
             return cacheProperties;
         }
+
+        var userId = filters.UserId;
 
         var query = _dbContext.Properties.AsQueryable();
 
@@ -51,7 +53,7 @@ public class PropertiesService : IPropertiesService, IScopedDependency
             query = query.Where(p => p.ListingType == filters.ListingType);
 
         var properties = await query
-            .Select(p => new PropertyDto
+            .Select(p => new PropertyModel
             {
                 Id = p.Id,
                 Title = p.Title,
@@ -65,25 +67,25 @@ public class PropertiesService : IPropertiesService, IScopedDependency
                 ListingType = p.ListingType.ToString(),
                 IsFavorite = userId.HasValue ? p.Favorites.Any(x => x.UserId == userId) : false,
             })
-            .ToListAsync();
+            .ToListAsync(filters.CancellationToken);
 
         await _cacheService.SetAsync(propertiesKey, properties);
 
         return properties;
     }
 
-    public async Task<PropertyDto?> GetProperty(int id, int? userId)
+    public async Task<PropertyModel?> GetProperty(BaseModel request)
     {
-        var propertiesKey = $"property-{id}";
+        var propertiesKey = $"property-{request.Id}";
 
-        var cacheProperty = await _cacheService.GetAsync<PropertyDto>(propertiesKey);
+        var cacheProperty = await _cacheService.GetAsync<PropertyModel>(propertiesKey);
         if (cacheProperty != null)
         {
             return cacheProperty;
         }
 
         var property = await _dbContext.Properties
-            .Select(p => new PropertyDto
+            .Select(p => new PropertyModel
             {
                 Id = p.Id,
                 Title = p.Title,
@@ -95,9 +97,9 @@ public class PropertiesService : IPropertiesService, IScopedDependency
                 Description = p.Description,
                 Images = p.Images,
                 ListingType = p.ListingType.ToString(),
-                IsFavorite = userId.HasValue ? p.Favorites.Any(x => x.UserId == userId) : false,
+                IsFavorite = request.UserId.HasValue ? p.Favorites.Any(x => x.UserId == request.UserId) : false,
             })
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == request.Id, request.CancellationToken);
 
         await _cacheService.SetAsync(propertiesKey, property);
 
