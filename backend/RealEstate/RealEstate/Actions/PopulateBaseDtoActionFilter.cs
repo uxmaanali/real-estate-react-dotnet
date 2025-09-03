@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Services.AuthorizedContext;
 
-public class PopulateBaseDtoActionFilter : IAsyncActionFilter, IScopedDependency
+public class PopulateBaseDtoActionFilter : IAsyncActionFilter
 {
     private readonly IAuthorizedContextService _authorizedContextService;
 
