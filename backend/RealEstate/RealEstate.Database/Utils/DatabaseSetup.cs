@@ -1,13 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿namespace RealEstate.Database.Utils;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using RealEstate.Database.Entities.Context;
+using RealEstate.Database.Interceptors;
 using RealEstate.Database.SeedData;
 using RealEstate.Shared.Constants;
 
-namespace RealEstate.Database.Utils;
 public static class DatabaseSetup
 {
     public static IServiceCollection RegisterContext(this IServiceCollection services, IConfiguration configuration)
@@ -16,7 +17,10 @@ public static class DatabaseSetup
         var connectionString = configuration.GetConnectionString(ConnectionStrings.DatabaseConnection)
             ?? throw new InvalidOperationException($"Connection string '{ConnectionStrings.DatabaseConnection}' not found.");
 
-        services.AddDbContext<RealEstateContext>(options =>
+        // Register interceptors
+        services.AddScoped<AuditInterceptor>();
+
+        services.AddDbContext<RealEstateContext>((serviceProvider, options) =>
         {
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             options.ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
@@ -34,6 +38,9 @@ public static class DatabaseSetup
                     errorNumbersToAdd: null
                 );
             });
+
+            // Add interceptors
+            options.AddInterceptors(serviceProvider.GetRequiredService<AuditInterceptor>());
         });
 
         return services;
