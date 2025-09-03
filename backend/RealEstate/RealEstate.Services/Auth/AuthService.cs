@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿namespace RealEstate.Services.Auth;
+
+using Microsoft.EntityFrameworkCore;
 
 using RealEstate.Database.Entities;
 using RealEstate.Database.Entities.Context;
@@ -9,9 +11,7 @@ using RealEstate.Shared.Models.Login;
 using RealEstate.Shared.Models.Register;
 using RealEstate.Shared.Utils;
 
-namespace RealEstate.Services.Auth;
-
-public class AuthService : IAuthService, IScopedDependency
+public class AuthService : IAuthService, IScopedDependency, IService
 {
     private readonly RealEstateContext _dbContext;
     private readonly IJwtService _jwtService;

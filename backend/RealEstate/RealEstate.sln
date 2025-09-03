@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstate.Shared", "RealEs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstate.Messaging", "RealEstate.Messaging\RealEstate.Messaging.csproj", "{6DAAA19C-5E96-4B38-971F-F69189DE29A8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B66FF417-60EE-4170-95ED-C65DD66AB9CE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{9AC48293-55A4-46D9-AA8A-0F383C958309} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{16A50931-F2F2-41CC-A36F-2A607705E0AC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{2A839F6A-32A9-43AA-A1F7-DE0F28472947} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6DAAA19C-5E96-4B38-971F-F69189DE29A8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C98D343F-80A8-4666-8C72-BB539EA9A95C}

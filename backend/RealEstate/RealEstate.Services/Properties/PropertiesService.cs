@@ -1,12 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿namespace RealEstate.Services.Properties;
+
+using Microsoft.EntityFrameworkCore;
 
 using RealEstate.Database.Entities.Context;
 using RealEstate.Services.Cache;
 using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Models.Properties;
 
-namespace RealEstate.Services.Properties;
-public class PropertiesService : IPropertiesService, IScopedDependency
+public class PropertiesService : IPropertiesService, IScopedDependency, IService
 {
     private readonly RealEstateContext _dbContext;
     private readonly ICacheService _cacheService;

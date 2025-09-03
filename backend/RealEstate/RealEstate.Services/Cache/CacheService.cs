@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Caching.Hybrid;
+﻿namespace RealEstate.Services.Cache;
+
+using Microsoft.Extensions.Caching.Hybrid;
 
 using RealEstate.Shared.Abstraction;
 
-namespace RealEstate.Services.Cache;
-
-public class CacheService : ICacheService, ISingletonDependency
+public class CacheService : ICacheService, ISingletonDependency, IService
 {
     private readonly HybridCache _hybridCache;
 

@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿namespace RealEstate.Services.Favorites;
+
+using Microsoft.EntityFrameworkCore;
 
 using RealEstate.Database.Entities;
 using RealEstate.Database.Entities.Context;
 using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Models.Properties;
 
-namespace RealEstate.Services.Favorites;
-
-public class FavoritesService : IFavoritesService, IScopedDependency
+public class FavoritesService : IFavoritesService, IScopedDependency, IService
 {
     private readonly RealEstateContext _dbContext;
 

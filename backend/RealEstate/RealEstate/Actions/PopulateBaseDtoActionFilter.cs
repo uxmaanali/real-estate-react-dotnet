@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Services.AuthorizedContext;
 
-public class PopulateBaseDtoActionFilter : IAsyncActionFilter
+public class PopulateBaseDtoActionFilter : IAsyncActionFilter, IScopedDependency
 {
     private readonly IAuthorizedContextService _authorizedContextService;
 
     public PopulateBaseDtoActionFilter(IAuthorizedContextService authorizedContextService)
     {
-        _authorizedContextService = authorizedContextService;
+        _authorizedContextService=authorizedContextService;
     }
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -27,8 +27,8 @@ public class PopulateBaseDtoActionFilter : IAsyncActionFilter
 
         if (baseDto is not null)
         {
-            baseDto.CancellationToken = httpContext.RequestAborted;
-            baseDto.UserId = userId;
+            baseDto.CancellationToken=httpContext.RequestAborted;
+            baseDto.UserId=userId;
         }
 
         await next();

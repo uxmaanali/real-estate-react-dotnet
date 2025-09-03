@@ -49,9 +49,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Add action filters
-builder.Services.AddScoped<PopulateBaseDtoActionFilter>();
-
 // Add services to the container.
 builder.Services.AddControllers(options =>
 {

@@ -15,10 +15,7 @@ public static class DatabaseSetup
     {
 
         var connectionString = configuration.GetConnectionString(ConnectionStrings.DatabaseConnection)
-            ?? throw new InvalidOperationException($"Connection string '{ConnectionStrings.DatabaseConnection}' not found.");
-
-        // Register interceptors
-        services.AddScoped<AuditInterceptor>();
+            ??throw new InvalidOperationException($"Connection string '{ConnectionStrings.DatabaseConnection}' not found.");
 
         services.AddDbContext<RealEstateContext>((serviceProvider, options) =>
         {
@@ -54,7 +51,7 @@ public static class DatabaseSetup
 
         var dbContext = scope.ServiceProvider.GetRequiredService<RealEstateContext>();
 
-        pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+        pendingMigrations=await dbContext.Database.GetPendingMigrationsAsync();
         if (pendingMigrations.Any())
         {
             await dbContext.Database.MigrateAsync();

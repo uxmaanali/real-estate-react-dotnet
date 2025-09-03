@@ -1,4 +1,6 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿namespace RealEstate.Services.Jwt;
+
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
@@ -9,14 +11,13 @@ using RealEstate.Database.Entities;
 using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.OptionsConfig.Jwt;
 
-namespace RealEstate.Services.Jwt;
-public class JwtService : IJwtService, IScopedDependency
+public class JwtService : IJwtService, IScopedDependency, IService
 {
     private readonly JwtOptions _jwtOptions;
 
     public JwtService(IOptions<JwtOptions> jwtOptions)
     {
-        _jwtOptions = jwtOptions.Value;
+        _jwtOptions=jwtOptions.Value;
     }
 
     public string GenerateJWTToken(User user)

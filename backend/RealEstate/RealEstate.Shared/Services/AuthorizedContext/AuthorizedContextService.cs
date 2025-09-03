@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿namespace RealEstate.Shared.Services.AuthorizedContext;
+
+using System.Security.Claims;
 
 using Microsoft.AspNetCore.Http;
 
@@ -6,8 +8,7 @@ using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Enums;
 using RealEstate.Shared.Utils;
 
-namespace RealEstate.Shared.Services.AuthorizedContext;
-public class AuthorizedContextService : IAuthorizedContextService, IScopedDependency
+public class AuthorizedContextService : IAuthorizedContextService, IScopedDependency, IService
 {
     private IHttpContextAccessor _httpContextAccessor;
 
