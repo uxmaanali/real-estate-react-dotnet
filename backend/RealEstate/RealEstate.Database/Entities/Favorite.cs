@@ -1,7 +1,7 @@
 ﻿using RealEstate.Database.Abstraction;
 
 namespace RealEstate.Database.Entities;
-public class Favorite : BaseEntity
+public class Favorite : AuditableEntity
 {
     public required int UserId { get; set; }
 

@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿namespace RealEstate.Database.EntityConfigs;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using RealEstate.Database.Abstraction;
 
-namespace RealEstate.Database.EntityConfigs;
-public class BaseEntityConfig<T> where T : BaseEntity
+public class BaseEntityConfig<T> where T : AuditableEntity
 {
     public virtual void Configuration(EntityTypeBuilder<T> builder)
     {
@@ -18,7 +18,11 @@ public class BaseEntityConfig<T> where T : BaseEntity
             .HasDefaultValueSql("getdate()")
             .IsRequired();
 
-        builder.Property(c => c.UserName)
+        builder.Property(c => c.CreatedBy)
+            .IsRequired(false)
+            .HasMaxLength(100);
+
+        builder.Property(c => c.ModifiedBy)
             .IsRequired(false)
             .HasMaxLength(100);
 

@@ -3,7 +3,7 @@ using RealEstate.Shared.Enums;
 
 
 namespace RealEstate.Database.Entities;
-public class Property : BaseEntity
+public class Property : AuditableEntity
 {
     public required string Title { get; set; }
 
