@@ -1,5 +1,7 @@
 ﻿namespace RealEstate.Messaging.Publishers;
 
+using System.Diagnostics.CodeAnalysis;
+
 using MassTransit;
 
 using RealEstate.Shared.Abstraction;
@@ -19,5 +21,16 @@ public class MessagePublisher : IMessagePublisher, IScopedDependency, IService
             throw new ArgumentNullException("Cannot send empty message.");
 
         await _publisher.Publish(message);
+    }
+
+    public async Task Publish<T>(T message, [NotNull] string routingKey)
+    {
+        if (message is null)
+            throw new ArgumentNullException("Cannot send empty message.");
+
+        await _publisher.Publish(message, context =>
+        {
+            context.SetRoutingKey(routingKey);
+        });
     }
 }
