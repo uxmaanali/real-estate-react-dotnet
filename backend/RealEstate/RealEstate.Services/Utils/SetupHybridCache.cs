@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Caching.Hybrid;
+﻿namespace RealEstate.Services.Utils;
+
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using RealEstate.Shared.Constants;
 
-namespace RealEstate.Services.Utils;
 public static class SetupHybridCache
 {
     public static IServiceCollection AddHybridCache(this IServiceCollection services, IConfiguration configuration)
@@ -27,7 +28,8 @@ public static class SetupHybridCache
             // Default timeouts
             options.DefaultEntryOptions = new HybridCacheEntryOptions
             {
-                LocalCacheExpiration = TimeSpan.FromMinutes(30)
+                LocalCacheExpiration = TimeSpan.FromMinutes(30),
+                Expiration = TimeSpan.FromHours(1)
             };
         });
 
