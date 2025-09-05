@@ -1,10 +1,10 @@
-﻿using MassTransit;
+﻿namespace RealEstate.Messaging.Publishers;
+
+using MassTransit;
 
 using RealEstate.Shared.Abstraction;
 
-namespace RealEstate.Messaging.Publishers;
-
-public class MessagePublisher : IMessagePublisher, IScopedDependency
+public class MessagePublisher : IMessagePublisher, IScopedDependency, IService
 {
     private readonly IPublishEndpoint _publisher;
 

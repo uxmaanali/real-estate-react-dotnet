@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RealEstate.Database\RealEstate.Database.csproj" />
+    <ProjectReference Include="..\RealEstate.Messaging\RealEstate.Messaging.csproj" />
     <ProjectReference Include="..\RealEstate.Shared\RealEstate.Shared.csproj" />
   </ItemGroup>
 

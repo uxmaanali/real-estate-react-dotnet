@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 using RealEstate.Database.Entities;
 using RealEstate.Database.Entities.Context;
+using RealEstate.Messaging.Models;
+using RealEstate.Messaging.Publishers;
 using RealEstate.Services.Jwt;
 using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Models;
@@ -15,11 +17,13 @@ public class AuthService : IAuthService, IScopedDependency, IService
 {
     private readonly RealEstateContext _dbContext;
     private readonly IJwtService _jwtService;
+    private readonly IMessagePublisher _messagePublisher;
 
-    public AuthService(RealEstateContext dbContext, IJwtService jwtService)
+    public AuthService(RealEstateContext dbContext, IJwtService jwtService, IMessagePublisher messagePublisher)
     {
         _dbContext = dbContext;
         _jwtService = jwtService;
+        this._messagePublisher = messagePublisher;
     }
 
     public async Task<ApiResponse<LoginResponseModel>> Login(LoginRequestModel request)
@@ -73,6 +77,12 @@ public class AuthService : IAuthService, IScopedDependency, IService
         };
         await _dbContext.Users.AddAsync(newUser);
         await _dbContext.SaveChangesAsync();
+
+        await _messagePublisher.Publish(new SendWelcomeMessageEvent
+        {
+            Email = request.Email,
+            UserId = newUser.Id,
+        });
 
         return ApiResponse<int>.SuccessResponse(newUser.Id);
     }

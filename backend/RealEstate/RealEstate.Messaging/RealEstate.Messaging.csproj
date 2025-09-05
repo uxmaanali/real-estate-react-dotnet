@@ -14,8 +14,4 @@
     <ProjectReference Include="..\RealEstate.Shared\RealEstate.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Consumers\" />
-  </ItemGroup>
-
 </Project>
