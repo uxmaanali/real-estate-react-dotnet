@@ -47,22 +47,22 @@ public static class ServicesDependencyRegistration
             lifeTime.Value
         );
 
-        services.Add(serviceDescriptor);
+        services!.Add(serviceDescriptor);
     }
 
     private static ServiceLifetime? GetLifeTime(Type type)
     {
-        if (typeof(ITransientDependency).GetTypeInfo().IsAssignableFrom(type))
+        if (typeof(ITransientDependency).IsAssignableFrom(type))
         {
             return ServiceLifetime.Transient;
         }
 
-        if (typeof(ISingletonDependency).GetTypeInfo().IsAssignableFrom(type))
+        if (typeof(ISingletonDependency).IsAssignableFrom(type))
         {
             return ServiceLifetime.Singleton;
         }
 
-        if (typeof(IScopedDependency).GetTypeInfo().IsAssignableFrom(type))
+        if (typeof(IScopedDependency).IsAssignableFrom(type))
         {
             return ServiceLifetime.Scoped;
         }
@@ -74,7 +74,7 @@ public static class ServicesDependencyRegistration
             Type implementationType,
             ServiceLifetime lifeTime)
     {
-        var isService = typeof(IService).GetTypeInfo().IsAssignableFrom(implementationType);
+        var isService = typeof(IService).IsAssignableFrom(implementationType);
         if (isService)
         {
             var interfaceName = $"I{implementationType.Name}";
