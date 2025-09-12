@@ -1,0 +1,65 @@
+services:
+  # Backend Service Setup
+  realestate.backend:
+    container_name: realestate.backend
+    build:
+      context: ./backend/RealEstate/RealEstate
+      dockerfile: Dockerfile
+    ports:
+      - 8010:8010
+      - 8011:8011
+    networks:
+      - realestate-dev-network
+
+  # Frontend Service Setup
+  realestate.frontend:
+    container_name: realestate.frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 8001:8001
+    networks:
+      - realestate-dev-network
+    depends_on:
+      - realestate.backend
+
+  # Redis Service Setup
+  realestate.redis:
+    container_name: realestate.redis
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+    networks:
+      - realestate-dev-network
+
+  # Redis Insight for Redis UI Service
+  realestate.redis-insigh:
+    container_name: realestate.redis-insight
+    image: redis/redisinsight:latest
+    ports:
+      - 5540:5540
+    networks:
+      - realestate-dev-network
+
+  # Rabbit MQ Service Setup
+  realestate.rabbit-mq:
+    container_name: realestate.rabbit-mq
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - realestate-dev-network
+
+# Networks for communication
+networks:
+  realestate-dev-network:
+    driver: bridge
+
+  # volumes for persistant data
+  redis-data:
+
+
