@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 using RealEstate.Database.Entities;
 using RealEstate.Database.Entities.Context;
-using RealEstate.Messaging.Models;
-using RealEstate.Messaging.Publishers;
+using RealEstate.MessageBroker.Events;
+using RealEstate.MessageBroker.Publisher;
 using RealEstate.Services.Jwt;
 using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Models;
@@ -78,11 +78,7 @@ public class AuthService : IAuthService, IScopedDependency, IService
         await _dbContext.Users.AddAsync(newUser);
         await _dbContext.SaveChangesAsync();
 
-        await _messagePublisher.Publish(new SendWelcomeMessageEvent
-        {
-            Email = request.Email,
-            UserId = newUser.Id,
-        });
+        await _messagePublisher.Publish(new SendWelcomeMessageEvent(newUser.Id, request.Email, "+92123456789"));
 
         return ApiResponse<int>.SuccessResponse(newUser.Id);
     }

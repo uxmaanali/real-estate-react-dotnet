@@ -1,6 +1,6 @@
 using RealEstate.Actions;
 using RealEstate.Database.Utils;
-using RealEstate.Messaging.Utils;
+using RealEstate.MessageBroker.Utils;
 using RealEstate.Services.Utils;
 using RealEstate.Utils;
 
@@ -34,7 +34,10 @@ builder.Services.AddAuthenticationAndAuthorization(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 
 // Register Rabbit MQ Messaging
-builder.Services.AddMessaging(builder.Configuration);
+//builder.Services.AddMessaging(builder.Configuration);
+
+// Register Rabbit MQ Messaging
+builder.Services.AddRabbitMQ();
 
 // Adding CORS to application
 builder.Services.AddCors(options =>

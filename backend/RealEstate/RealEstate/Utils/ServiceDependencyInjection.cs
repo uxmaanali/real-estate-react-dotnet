@@ -3,8 +3,7 @@
 using System.Reflection;
 
 using RealEstate.Database.Utils;
-using RealEstate.Messaging.Utils;
-using RealEstate.Services.Auth;
+using RealEstate.Services.Utils;
 using RealEstate.Shared.Utils;
 
 public static class ServiceDependencyInjection
@@ -13,10 +12,9 @@ public static class ServiceDependencyInjection
     {
         var assemblies = new List<Assembly>
         {
-            typeof(SetupMessaging).Assembly,
             typeof(DatabaseSetup).Assembly,
             typeof(SharedSetup).Assembly,
-            typeof(AuthService).Assembly,
+            typeof(ServicesSetup).Assembly,
             typeof(Program).Assembly,
         };
         assemblies.ForEach(assembly => ServicesDependencyRegistration.AddAssembly(services, assembly));
