@@ -66,6 +66,8 @@ public class RabbitMqConnection : IRabbitMqConnection, IAsyncDisposable
 
     private async Task<IConnection> CreateConnection()
     {
+        Console.WriteLine($"Rabbit MQ host {_options.HostName}");
+        Console.WriteLine($"Rabbit MQ port {_options.Port}");
         var factory = new ConnectionFactory
         {
             HostName = _options.HostName,

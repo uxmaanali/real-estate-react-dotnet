@@ -10,7 +10,6 @@ public static class SetupHybridCache
 {
     public static IServiceCollection AddHybridCache(this IServiceCollection services, IConfiguration configuration)
     {
-
         var connectionString = configuration.GetConnectionString(ConnectionStrings.RedisConnection)
             ?? throw new InvalidOperationException($"Connection string '{ConnectionStrings.RedisConnection}' not found.");
 

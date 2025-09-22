@@ -7,19 +7,18 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["RealEstate/RealEstate.csproj", "RealEstate/"]
-COPY ["RealEstate.Database/RealEstate.Database.csproj", "RealEstate.Database/"]
-COPY ["RealEstate.Shared/RealEstate.Shared.csproj", "RealEstate.Shared/"]
-COPY ["RealEstate.Messaging/RealEstate.Messaging.csproj", "RealEstate.Messaging/"]
-COPY ["RealEstate.Services/RealEstate.Services.csproj", "RealEstate.Services/"]
-RUN dotnet restore "./RealEstate/RealEstate.csproj"
+COPY ["RealEstate/RealEstate/RealEstate.csproj", "RealEstate/RealEstate/"]
+COPY ["RealEstate/RealEstate.Database/RealEstate.Database.csproj", "RealEstate/RealEstate.Database/"]
+COPY ["RealEstate/RealEstate.Shared/RealEstate.Shared.csproj", "RealEstate/RealEstate.Shared/"]
+COPY ["RealEstate/RealEstate.MessageBroker/RealEstate.MessageBroker.csproj", "RealEstate/RealEstate.MessageBroker/"]
+COPY ["RealEstate/RealEstate.Services/RealEstate.Services.csproj", "RealEstate/RealEstate.Services/"]
+RUN dotnet restore "./RealEstate/RealEstate/RealEstate.csproj"
 COPY . .
-WORKDIR "/src/RealEstate"
+WORKDIR "/src/RealEstate/RealEstate"
 RUN dotnet build "./RealEstate.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

@@ -3,13 +3,24 @@ services:
   realestate.backend:
     container_name: realestate.backend
     build:
-      context: ./backend/RealEstate/RealEstate
-      dockerfile: Dockerfile
+      context: ./backend
+      dockerfile: RealEstate/RealEstate/Dockerfile
     ports:
-      - 8010:8010
-      - 8011:8011
+      - 8001:8081
+      - 8002:8080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=your-cert-password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/ssl/dev-cert.pfx
+      - DOTNET_RUNNING_IN_CONTAINER=true
     networks:
       - realestate-dev-network
+    depends_on:
+      - realestate.redis
+      - realestate.redis-insigh
+      - realestate.sqlserver
+      - realestate.rabbit-mq
+    restart: unless-stopped
 
   # Frontend Service Setup
   realestate.frontend:
@@ -18,7 +29,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - 8001:8001
+      - 8000:80
     networks:
       - realestate-dev-network
     depends_on:
@@ -53,13 +64,37 @@ services:
       - 15672:15672
     networks:
       - realestate-dev-network
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s # Reduced interval
+      timeout: 30s
+      retries: 20 # Increased retries
+      start_period: 60s # Give more time to start
+
+  # SQL Server Setup
+  realestate.sqlserver:
+    container_name: realestate.sqlserver
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    ports:
+      - 1433:1433
+    environment:
+      MSSQL_SA_PASSWORD: "Sql!2345!"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - realestate-dev-network
 
 # Networks for communication
 networks:
   realestate-dev-network:
     driver: bridge
 
-  # volumes for persistant data
+# volumes for persistant data
+volumes:
   redis-data:
-
-
+  rabbitmq_data:
+  sqlserver_data:

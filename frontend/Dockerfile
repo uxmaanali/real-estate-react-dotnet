@@ -27,6 +27,9 @@ FROM nginx:alpine
 # This is the key step of a multi-stage build, resulting in a small final image
 COPY --from=build /app/dist /usr/share/nginx/html
 
+# Copy nginx configuration
+# COPY nginx.conf /etc/nginx/nginx.conf
+
 # Expose port 80 to the outside world
 EXPOSE 80
 
