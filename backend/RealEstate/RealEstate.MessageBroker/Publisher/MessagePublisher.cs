@@ -10,7 +10,7 @@ using RealEstate.MessageBroker.Abstraction;
 using RealEstate.MessageBroker.Connection;
 using RealEstate.MessageBroker.Constants;
 using RealEstate.MessageBroker.Utils;
-using RealEstate.Shared.Utils;
+using RealEstate.Shared.Extensions;
 
 public class MessagePublisher : IMessagePublisher
 {

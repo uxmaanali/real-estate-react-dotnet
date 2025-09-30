@@ -1,4 +1,4 @@
-﻿namespace RealEstate.Shared.Utils;
+﻿namespace RealEstate.Shared.Extensions;
 using System.Text;
 
 public static class StringExtensions

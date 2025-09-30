@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 using RealEstate.Shared.Abstraction;
 using RealEstate.Shared.Enums;
-using RealEstate.Shared.Utils;
+using RealEstate.Shared.Extensions;
 
 public class AuthorizedContextService : IAuthorizedContextService, IScopedDependency, IService
 {
@@ -32,7 +32,7 @@ public class AuthorizedContextService : IAuthorizedContextService, IScopedDepend
     public UserRole GetUserRole()
     {
         var role = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
-        var userRole = EnumHelper.ParseOrDefault<UserRole>(role);
+        var userRole = EnumExtensions.ParseOrDefault<UserRole>(role);
         return userRole != null ? userRole.Value : UserRole.Public;
     }
 }
